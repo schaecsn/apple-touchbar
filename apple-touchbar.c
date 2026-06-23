@@ -1070,8 +1070,11 @@ static bool appletb_test_and_mark_active(struct appletb_device *tb_dev)
 
 	spin_lock_irqsave(&tb_dev->tb_lock, flags);
 
+	/* schaecsn: enable the driver despite tb_dev->disp_iface.hdev == NULL
 	if (tb_dev->mode_iface.hdev && tb_dev->disp_iface.hdev &&
-	    !tb_dev->active) {
+	    !tb_dev->active)
+	*/
+	  {
 		tb_dev->active = true;
 		activated = true;
 	}
@@ -1089,10 +1092,14 @@ static bool appletb_test_and_mark_inactive(struct appletb_device *tb_dev,
 
 	spin_lock_irqsave(&tb_dev->tb_lock, flags);
 
+	/* schaecsn: disable the driver despite tb_dev->disp_iface.hdev == NULL
+
 	if (tb_dev->mode_iface.hdev && tb_dev->disp_iface.hdev &&
 	    tb_dev->active &&
 	    (hdev == tb_dev->mode_iface.hdev ||
-	     hdev == tb_dev->disp_iface.hdev)) {
+	     hdev == tb_dev->disp_iface.hdev))
+	*/
+	     {
 		tb_dev->active = false;
 		deactivated = true;
 	}
@@ -1435,6 +1442,10 @@ static void appletb_free_device(struct appletb_device *tb_dev)
 }
 
 static const struct hid_device_id appletb_hid_ids[] = {
+	/* MacBook Pro's 2016, 2017, with T1 chip */
+	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
+			 USB_DEVICE_ID_APPLE_IBRIDGE),
+	  .driver_data = APPLETB_FEATURE_IS_T1 },
 	{ },
 };
 
