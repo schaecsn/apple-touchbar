@@ -41,7 +41,6 @@
 #include <linux/workqueue.h>
 
 #include "hid-ids.h"
-#include "apple-ibridge.h"
 
 #define HID_UP_APPLE		0xff120000
 #define HID_USAGE_MODE		(HID_UP_CUSTOM | 0x0004)
@@ -1436,16 +1435,6 @@ static void appletb_free_device(struct appletb_device *tb_dev)
 }
 
 static const struct hid_device_id appletb_hid_ids[] = {
-	/* MacBook Pro's 2016, 2017, with T1 chip */
-	{ HID_USB_DEVICE(USB_VENDOR_ID_LINUX_FOUNDATION,
-			 USB_DEVICE_ID_IBRIDGE_TB),
-	  .driver_data = APPLETB_FEATURE_IS_T1 },
-	/* MacBook Pro's 2018, 2019, with T2 chip: iBridge DFR brightness */
-	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
-			USB_DEVICE_ID_APPLE_TOUCHBAR_BACKLIGHT) },
-	/* MacBook Pro's 2018, 2019, with T2 chip: iBridge Display */
-	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE,
-			USB_DEVICE_ID_APPLE_TOUCHBAR_DISPLAY) },
 	{ },
 };
 
